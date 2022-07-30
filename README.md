@@ -1,5 +1,5 @@
-# team-repo-template
-ImageNomeR (Image/Genome/Transcriptome Explorer)
+# ImageNomeR
+Image/Genome/Transcriptome Explorer
 
 ## Table of Contents
 
