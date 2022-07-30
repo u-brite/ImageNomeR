@@ -29,7 +29,7 @@ The eventual goal is to have many types of plots and identifying arbitrary subse
 
 Here is an example of what a screenshot of the bar graph might look like:
 
-![bar graph example](/images/bar_graph_example.png')
+![bar graph example](https://github.com/u-brite/ImageNomeR/blob/main/images/bar_graph_example.png?raw=1)
 
 The interaction will happen in javascript. We can use the python/javascript plotly (plotly.js) library as a starting point.
 
