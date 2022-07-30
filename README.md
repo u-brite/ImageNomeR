@@ -1,38 +1,68 @@
 # team-repo-template
-:exclamation: _This top heading should be the name of your project i.e. BiocSwirl or SNVariome. Anything between 2 exclamation marks is intended to be deleted. Any content that isn't a heading or an optional heading can be deleted as well. The structure of this readme is open to any creative changes, but the main components of Background/Data/Usage/Team Members should remain. You're free to add images and get creative about how you want your readme to look._ :exclamation:
-
-:exclamation: _The `configs` and `notebooks` directories are also optional. We recommend taking a look at [cookiecutter for datascience](https://github.com/drivendata/cookiecutter-data-science) or [cookiecutter for computational biology](https://github.com/drivendata/cookiecutter-data-science) to get ideas on structuring your projects. Also, use a `.gitignore` that fits the main programming language of your project._ :exclamation:
+ImageNomeR (Image/Genome/Transcriptome Explorer)
 
 ## Table of Contents
 
-- [Template](#team-repo-template)
+- [ImageNomeR](#team-repo-template)
     - [Background](#Background)
     - [Data](#data)
     - [Usage](#usage)
         - [Installation](#installation)
-        - [Requirements](#requirements) _Can be named Dependencies as well_
-        - [Activate conda environment](#activate-conda-environment) _Optional_
-        - [Steps to run ](#steps-to-run) _Optional depending on project_
-            - [Step-1](#step-1)
-            - [Step-2](#step-2)
-    - [Results](#results) _Optional depending on project_
+        - [Requirements](#requirements) _python,numpy,scikit-learn,nilearn,pytorch,plotly,flask,fMRIPrep_
+        - [Activate conda environment](#activate-conda-environment) _Not used?_
+        - [Steps to run ](#steps-to-run) _Run server in your python application that has results data_
+            - [Step-1](#step-1) _Some (most?) interpretation will happen client-side in Javascript with python plotly/plotly.js_
+            - [Step-2](#step-2) _Save graphs or analysis data_
+    - [Results](#results) _The purpose of this tool is exploration. The output could be saved graphs._
     - [Team Members](#team-members)
 
 ## Background
 
-:exclamation: _Include background on the project, project description, and significance. This will be converted to your team's abstract by the end of the hackathon. This should be updated by Monday, August 1st to include feedback given._ :exclamation:
+Analyzing data often requires many repetitive change-run-plot cycles. Additionally, any feature identification leads to code edits to identify closely aligned features or subjects. Our goal is to create a simple web interface for moving between features and subjects seamlessly without changing code. Navigation should be 100% by mouse, and the program should give annotations on features.
+
+The program is geared toward analysis of fMRI and omics data. It is based on a real problem from research work. It is not a new algorithm for prediction or feature detection, but an aid in analysis.
+
+The eventual goal is to have many types of plots and identifying arbitrary subsets of omics. To start, we should have some easy to accomplish goals:
+
+- Create an interactive bar graph of features based on correlation with discriminative power (for supervised tasks)
+- Create an interactive thresholded similarity matrix based on inclusion or exclusion of features (for unsupervised tasks)
+
+Here is an example of what a screenshot of the bar graph might look like:
+
+![bar graph example](/images/bar_graph_example.png')
+
+The interaction will happen in javascript. We can use the python/javascript plotly (plotly.js) library as a starting point.
 
 ## Data
 
-:exclamation: _Discuss the data you used and how it can be accessed._ :exclamation:
+We have access to the following datasets:
+
+- https://openfmri.org/dataset/ds000053/ Gambling fMRI (180 GB)
+- https://openfmri.org/dataset/ds000107/ Nback task fMRI (3 GB)
+- https://cgci-data.nci.nih.gov/Public/HTMCP-CC/mRNA-seq/L3/expression/BCCA/ Cancer, unsupervised (1 GB)
+- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE202295 Exercise, muscle response, diabetes 2 (4 MB)
+
+For fMRI, we can use the Power atlas to define ROIs:
+
+- https://github.com/brainspaces/power264
 
 ## Usage
 
-:exclamation: _How will someone not involved in your project be able to run the code or use it._ :exclamation:
+We have to figure it out. For fMRI, the process is something like this:
+
+1. Download
+2. Pre-process (fMRIprep)
+3. Check data quality
+4. Convert BOLD to timeseries
+5. Convert timeseries to functional connectivity
+6. Perform regression
+7. Calculate correlation to features
+8. Send to ImageNomeR
+9. Analyze with ImageNomeR
+
+Alternatively, can use the raw BOLD images.
 
 ### Installation
-
-:exclamation: _If installation is required, please mention how to do so here._ :exclamation:
 
 Installation simply requires fetching the source code. Following are required:
 
@@ -46,9 +76,6 @@ git clone -b main \
 ```
 
 ### Requirements
-:exclamation: _Note any software used (including Python or R packages), operating system requirements, etc. and its version so that your project is reproducible. It does not have to be in the below format_ :exclamation:
-
-*OS:*
 
 Currently works only in Linux OS. Docker versions may need to be explored later to make it useable in Mac (and
 potentially Windows).
@@ -57,9 +84,9 @@ potentially Windows).
 
 - Anaconda3
     - Tested with version: 2020.02
+- See above
 
 ### Activate conda environment
-:exclamation: _Optional: Depends on project._ :exclamation:
 
 Change in to root directory and run the commands below:
 
@@ -75,7 +102,6 @@ conda activate testing
 ```
 
 ### Steps to run
-:exclamation: _Optional: Depends on project._ :exclamation:
 
 #### Step 1
 
@@ -103,9 +129,9 @@ output_directory/
 
 
 ## Results
-:exclamation: _If your project yielded or intends to yield some novel analysis, please include them in your readme. It can be named something other than results as well._ :exclamation:
 
 ## Team Members
 
-Tarun Mamidi | tmamidi@uab.edu | Team Leader  
-Shaurita Hutchins | shutchins@uab.edu | Co-leader
+Anton Orlichenko | aorlichenko@tulane.edu | Team Leader
+Jack Freeman | jackwfreeman@yahoo.com | Team Co-leader
+
