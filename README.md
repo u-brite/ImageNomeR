@@ -29,10 +29,10 @@ The eventual goal is to have many types of plots and identifying arbitrary subse
 
 Here is an example of what a screenshot of the bar graph might look like:
 
-![bar graph example](https://github.com/u-brite/ImageNomeR/blob/main/images/bar_graph_example.png?raw=1)
+![bar graph example](https://github.com/u-brite/ImageNomeR/blob/main/images/bar_graph_example.png?raw=1)<br/>
 ![nilearn connection visualization example](https://github.com/u-brite/ImageNomeR/blob/main/images/nilearn_conn_visualization.png?raw=1)
 
-The interaction will happen in javascript. We can use the python/javascript plotly (plotly.js) library as a starting point.
+The interaction will happen in javascript. We can use the python/javascript plotly (plotly.js) library as a starting point. The above plots were created with matplotlib and nilearn, respectively.
 
 ## Data
 
@@ -133,6 +133,6 @@ output_directory/
 
 ## Team Members
 
-Anton Orlichenko | aorlichenko@tulane.edu | Team Leader
+Anton Orlichenko | aorlichenko@tulane.edu | Team Leader<br/>
 Jack Freeman | jackwfreeman@yahoo.com | Team Co-leader
 
