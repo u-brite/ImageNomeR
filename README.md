@@ -1,6 +1,8 @@
 # ImageNomeR
 Image/Genome/Transcriptome Explorer
 
+The purpose of ImageNomeR is to facilitate efficient exploration of supervised or unsupervised fMRI/omics data analysis. Find relationships between features, groups of features, and how they relate to response variables. Identify sub-populations in the browser just by using your mouse.
+
 ## Table of Contents
 
 - [ImageNomeR](#team-repo-template)
@@ -8,12 +10,15 @@ Image/Genome/Transcriptome Explorer
     - [Data](#data)
     - [Usage](#usage)
         - [Installation](#installation)
-        - [Requirements](#requirements) _python,numpy,scikit-learn,nilearn,pytorch,plotly,flask,fMRIPrep_
-        - [Activate conda environment](#activate-conda-environment) _Not used?_
-        - [Steps to run ](#steps-to-run) _Run server in your python application that has results data_
-            - [Step-1](#step-1) _Some (most?) interpretation will happen client-side in Javascript with python plotly/plotly.js_
-            - [Step-2](#step-2) _Save graphs or analysis data_
-    - [Results](#results) _The purpose of this tool is exploration. The output could be saved graphs._
+			- pip install imagenomer
+        - [Requirements](#requirements) 
+			- python, numpy, scikit-learn, nilearn, pytorch, plotly, flask, fMRIPrep
+        - [Activate conda environment](#activate-conda-environment) 
+        - [Steps to run ](#steps-to-run) _Set up server_
+			- [Step-1](#step-1) _Call python backened with data_
+			- [Step-2](#step-2) _Explore in the browser_
+            - [Step-3](#step-3) _Save graphs or summary_
+    - [Results](#results) _The purpose of ImageNomeR is exploration. It may generate useful graphs._
     - [Team Members](#team-members)
 
 ## Background
