@@ -43,6 +43,9 @@ The interaction will happen in javascript. We can use the python/javascript plot
 
 We have access to the following datasets:
 
+- https://openneuro.org/datasets/ds004144/versions/1.0.1 Fybromialgia 2-task fMRI, 2 groups, clinical data (17.9 GB)
+	- **This is the preferred dataset for fMRI.**
+	- It has lots of additional clinical and demographic data (no omics).
 - https://openfmri.org/dataset/ds000053/ Gambling fMRI (180 GB)
 - https://openfmri.org/dataset/ds000107/ Nback task fMRI (3 GB)
 - https://cgci-data.nci.nih.gov/Public/HTMCP-CC/mRNA-seq/L3/expression/BCCA/ Cancer, mRNA, unsupervised (1 GB)
