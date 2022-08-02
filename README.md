@@ -1,7 +1,7 @@
 # ImageNomeR
 Image/Genome/Transcriptome Explorer
 
-The purpose of ImageNomeR is to facilitate efficient exploration of supervised or unsupervised fMRI/omics data analysis. Find relationships between features, groups of features, and how they relate to response variables. Identify sub-populations in the browser just by using your mouse.
+The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics data (supervised or unsupervised). Find relationships between features, groups of features, and how they relate to response variables. Identify sub-populations in the browser just by using your mouse.
 
 ## Table of Contents
 
