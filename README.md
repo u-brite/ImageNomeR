@@ -11,14 +11,14 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 	- python, numpy, scikit-learn, nilearn, pytorch, plotly, plotly.js, React, flask, fMRIPrep
 - [Plan](#Plan)
 	- [Components](#Components)
-		- [Backend](#server) Sends JSON to the frontend
-		- [Frontend](#frontend) User interaction and graph generation
-		- [Library](#library) For interfacing with user code
+		- [Backend](#1. server) Sends JSON to the frontend
+		- [Frontend](#2. frontend) User interaction and graph generation
+		- [Library](#3. library) For interfacing with user code
 	- [Milestones](#Milestones)
-		- [Input](#input) Regress or cluster fMRI and counts data
-		- [Communication](#communication) Move data between user code, server, and web browser
-		- [Graphs](#graphs) Generate graphs in the web browser
-		- [Interaction](#interaction) Navigate within graphs
+		- [Input](#A. generate input) Regress or cluster fMRI and counts data
+		- [Communication](#B. communication) Move data between user code, server, and web browser
+		- [Graphs](#C. graphs) Generate graphs in the web browser
+		- [Interaction](#D. interaction) Navigate within graphs
 - [Results](#Results)
 	- [Readme](#Readme)
 - [Team Members](#Team Members)
@@ -78,11 +78,7 @@ The majority of the work will be done in either python (server and library) or j
 
 ## Plan
 
-A breakdown of the plan for the Hackathon.
-
 ### Components
-
-ImageNomeR will consist of 3 components: server, front-end, and library.
 
 #### 1. Server
 
@@ -112,9 +108,7 @@ The user is expected to provide their own state of the art regression/classifica
 
 ### Milestones
 
-We should accomplish the following goals in the 2 days of the Hackathon.
-
-#### A. Input
+#### A. Generate Input
 
 Generate predictions along with feature weights for fMRI and omics data. This can be linear regression, logistic regression, NN-based models, K-means, GCN, or something more advanced. We recommend using numpy, pytorch, or scikit-learn.
 
