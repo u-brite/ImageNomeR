@@ -11,14 +11,14 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 	- python, numpy, scikit-learn, nilearn, pytorch, plotly, plotly.js, React, flask, fMRIPrep
 - [Plan](#Plan)
 	- [Components](#Components)
-		- [Backend](#1. server) Sends JSON to the frontend
-		- [Frontend](#2. frontend) User interaction and graph generation
-		- [Library](#3. library) For interfacing with user code
+		- [Backend](#server) Sends JSON to the frontend
+		- [Frontend](#frontend) User interaction and graph generation
+		- [Library](#library) For interfacing with user code
 	- [Milestones](#Milestones)
-		- [Input](#A. generate input) Regress or cluster fMRI and counts data
-		- [Communication](#B. communication) Move data between user code, server, and web browser
-		- [Graphs](#C. graphs) Generate graphs in the web browser
-		- [Interaction](#D. interaction) Navigate within graphs
+		- [Input](#input) Regress or cluster fMRI and counts data
+		- [Communication](#communication) Move data between user code, server, and web browser
+		- [Graphs](#graphs) Generate graphs in the web browser
+		- [Interaction](#interaction) Navigate within graphs
 - [Results](#Results)
 	- [Readme](#Readme)
 - [Team Members](#Team Members)
@@ -80,11 +80,11 @@ The majority of the work will be done in either python (server and library) or j
 
 ### Components
 
-#### 1. Server
+#### Server
 
 The server will serve the web pages containing the front-end javascript. It will also store user data and communicate data to the front-end on request via JSON. We are thinking to use Flask since it is simple and python-based.
 
-#### 2. Frontend
+#### Frontend
 
 The frontend will be a javascript web app (React and plotly.js might be a good starting point). The graphs will be probably be canvas based. There will be two types of graphs: feature graphs and population graphs.
 
@@ -102,25 +102,25 @@ Additonally, we want a panel with some summary information for highlighted featu
 - Closely aligned (correlated) features
 - Distribution of feature weight in repeated runs of the model
 
-#### 3. Library
+#### Library
 
 The user is expected to provide their own state of the art regression/classification/clustering algorithm. They communicate with the server via a python library they import into their code.
 
 ### Milestones
 
-#### A. Generate Input
+#### Input
 
 Generate predictions along with feature weights for fMRI and omics data. This can be linear regression, logistic regression, NN-based models, K-means, GCN, or something more advanced. We recommend using numpy, pytorch, or scikit-learn.
 
-#### B. Communication 
+#### Communication 
 
 To be able to transfer data between the user code generated in [Input](#input) above, the server, and the front-end web page. User-server communication will likely use a library and IPC, while server and frontend communication will likely use JSON.
 
-#### C. Graphs
+#### Graphs
 
 Generate graphs in the web browser as in the [Background](#background) section. Also generate population-level graphs and annotations.
 
-#### D. Interaction
+#### Interaction
 
 Clicking on bars of graphs (feature view) or nodes (subject view) navigates to an another display. There will be a dynamically populated sidebar with feature or subject info.
 
