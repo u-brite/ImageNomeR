@@ -21,7 +21,7 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 		- [Interaction](#interaction) Navigate within graphs
 - [Results](#Results)
 	- [Readme](#Readme)
-- [Team Members](#Team Members)
+- [Team Members](#Team_Members)
 
 ## Background
 
