@@ -5,21 +5,23 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 
 ## Table of Contents
 
-- [ImageNomeR](#team-repo-template)
-    - [Background](#Background)
-    - [Data](#data)
-    - [Usage](#usage)
-        - [Installation](#installation)
-			- pip install imagenomer
-        - [Requirements](#requirements) 
-			- python, numpy, scikit-learn, nilearn, pytorch, plotly, flask, fMRIPrep
-        - [Activate conda environment](#activate-conda-environment) 
-        - [Steps to run ](#steps-to-run) _Set up server_
-			- [Step-1](#step-1) _Call python backened with data_
-			- [Step-2](#step-2) _Explore in the browser_
-            - [Step-3](#step-3) _Save graphs or summary_
-    - [Results](#results) _The purpose of ImageNomeR is exploration. It may generate useful graphs._
-    - [Team Members](#team-members)
+- [Background](#Background)
+- [Data](#Data)
+- [Tools](#Tools)
+	- python, numpy, scikit-learn, nilearn, pytorch, plotly, plotly.js, React, flask, fMRIPrep
+- [Plan](#Plan)
+	- [Components](#Componenets)
+		- [Server backend](#server) Sends JSON to the frontend
+		- [Web frontend](#frontend) User interaction and graph generation
+		- [Python library](#library) For interfacing with user code
+	- [Milestones](#Milestones)
+		- [Input](#input) Regress or cluster fMRI and counts data
+		- [Communicaton)(#communication) Move data between user code, server, and web browser
+		- [Graphs](#graphs) Generate graphs in the web browser
+		- [Interaction](#interaction) Navigate within graphs
+- [Results](#Results)
+	- [Readme](#Readme)
+- [Team Members](#Team Members)
 
 ## Background
 
@@ -43,104 +45,103 @@ The interaction will happen in javascript. We can use the python/javascript plot
 
 We have access to the following datasets:
 
-- https://openneuro.org/datasets/ds004144/versions/1.0.1 Fybromialgia 2-task fMRI, 2 groups, clinical data (17.9 GB)
+- https://openneuro.org/datasets/ds004144/versions/1.0.1 Fybromialgia 2-task fMRI, 2 groups (17.9 GB)
 	- **This is the preferred dataset for fMRI.**
 	- It has lots of additional clinical and demographic data (no omics).
 - https://openfmri.org/dataset/ds000053/ Gambling fMRI (180 GB)
 - https://openfmri.org/dataset/ds000107/ Nback task fMRI (3 GB)
 - https://cgci-data.nci.nih.gov/Public/HTMCP-CC/mRNA-seq/L3/expression/BCCA/ Cancer, mRNA, unsupervised (1 GB)
 - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE202295 Exercise, mRNA, muscle response in type 2 diabetes (4 MB)
+	- **This the the preferred dataset for omics.**
+	- mRNA counts data from muscle biopsy and demographic data (no imaging).
 
 For fMRI, we can use the Power atlas to define ROIs:
 
 - https://github.com/brainspaces/power264
 
-## Usage
+Jack and Anton will try to have all data preprocessed prior to the Hackathon.
 
-We have to figure it out. For fMRI, the process is something like this:
+## Tools
 
-1. Download
-2. Pre-process (fMRIprep)
-3. Check data quality
-4. Convert BOLD to timeseries
-5. Convert timeseries to functional connectivity
-6. Perform regression
-7. Calculate correlation to features
-8. Send to ImageNomeR
-9. Analyze with ImageNomeR
+The majority of the work will be done in either python (server and library) or javascript (frontend). We suggest the following tools:
 
-Alternatively, can use the raw BOLD images.
+- python
+- numpy
+- scikit-learn
+- nilearn
+- pytorch
+- matplotlib, seaborn, plotly, plotly.js (graph generation)
+- React (javascript)
+- flask (python server)
+- fMRIPrep
+	- Preprocessing takes a long time and we will try to get it done before the Hackathon
 
-### Installation
+## Plan
 
-Installation simply requires fetching the source code. Following are required:
+A breakdown of the plan for the Hackathon.
 
-- Git
+### Components
 
-To fetch source code, change in to directory of your choice and run:
+ImageNomeR will consist of 3 components: server, front-end, and library.
 
-```sh
-git clone -b main \
-    git@github.com:u-brite/team-repo-template.git
-```
+#### Server
 
-### Requirements
+The server will serve the web pages containing the front-end javascript. It will also store user data and communicate data to the front-end on request via JSON. We are thinking to use Flask since it is simple and python-based.
 
-Currently works only in Linux OS. Docker versions may need to be explored later to make it useable in Mac (and
-potentially Windows).
+#### Frontend
 
-*Tools:*
+The frontend will be a javascript web app (React and plotly.js might be a good starting point). The graphs will be probably be canvas based. There will be two types of graphs: feature graphs and population graphs.
 
-- Anaconda3
-    - Tested with version: 2020.02
-- See above
+- Feature graphs: bar graphs as the example in [background](#background)
+- Population graphs: graphs of (subsets of) populations color-coded according to presence of a feature (see below for scikit-learn MDS example)
 
-### Activate conda environment
+![MDS population](https://github.com/u-brite/ImageNomeR/blob/main/images/mds.png?raw=1)<br/> 
 
-Change in to root directory and run the commands below:
+Moving between graphs will take place using mouse clicks on the graphs.
 
-```sh
-# create conda environment. Needed only the first time.
-conda env create --file configs/environment.yaml
+Additonally, we want a panel with some summary information for highlighted features.
 
-# if you need to update existing environment
-conda env update --file configs/environment.yaml
+- Distribution of feature in subjects
+- Predictive power of feature
+- Closely aligned (correlated) features
+- Distribution of feature weight in repeated runs of the model
 
-# activate conda environment
-conda activate testing
-```
+#### Library
 
-### Steps to run
+The user is expected to provide their own state of the art regression/classification/clustering algorithm. They communicate with the server via a python library they import into their code.
 
-#### Step 1
+### Milestones
 
-```sh
-python src/data_prep.py -i path/to/file.tsv -O path/to/output_directory
-```
+We should accomplish the following goals in the 2 days of the Hackathon.
 
-#### Step 2
+#### Input
 
-```sh
-python src/model.py -i path/to/parsed_file.tsv -O path/to/output_directory
-```
+Generate predictions along with feature weights for fMRI and omics data. This can be linear regression, logistic regression, NN-based models, K-means, GCN, or something more advanced. We recommend using numpy, pytorch, or scikit-learn.
 
-Output from this step includes -
+#### Communication 
 
-```directory
-output_directory/
-├── parsed_file.tsv               <--- used for model
-├── plot.pdf- Plot to visualize data
-└── columns.csv - columns before and after filtering step
+To be able to transfer data between the user code generated in [Input](#input) above, the server, and the front-end web page. User-server communication will likely use a library and IPC, while server and frontend communication will likely use JSON.
 
-```
+#### Graphs
 
-**Note**: The is an example note with a [link](https://github.com/u-brite/team-repo-template).
+Generate graphs in the web browser as in the [Background](#background) section. Also generate population-level graphs and annotations.
 
+#### Interaction
+
+Clicking on bars of graphs (feature view) or nodes (subject view) navigates to an another display. There will be a dynamically populated sidebar with feature or subject info.
 
 ## Results
+
+Deliverable will be a pip python package that includes the library, server, and client that will perform all the tasks listed above.
+
+### Readme
+
+The final task will be to update the README.md to reflect the final package design.
 
 ## Team Members
 
 Anton Orlichenko | aorlichenko@tulane.edu | Team Leader<br/>
-Jack Freeman | jackwfreeman@yahoo.com | Team Co-leader
-
+Jack Freeman | jackwfreeman@yahoo.com | Team Co-leader<br/>
+Grant Daly<br/>
+Justin Li<br/>
+Jie Yuan
