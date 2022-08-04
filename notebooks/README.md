@@ -1,3 +1,5 @@
 # notebooks
 
-:exclamation: _Any jupyter notebooks can be hosted here._ :exclamation:
+fMRI folder contains preprocessing for fMRI plus basic analysis
+
+Examples or prototyping can be hosted here
