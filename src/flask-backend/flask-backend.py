@@ -12,7 +12,7 @@ def index():
 
 @app.route("/data")
 def getData():
-    with open('data/dummyFmri1.json') as inFile:
+    with open('../../data/dummyFmri1.json') as inFile:
         data = json.load(inFile)
         return jsonify(data)
 
