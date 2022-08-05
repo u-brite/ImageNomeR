@@ -1,1 +1,10 @@
 *.ipynb_checkpoints
+
+\#*\#
+
+# virtual environment
+venv/*
+envs/*
+
+# python
+*__pycache__*
