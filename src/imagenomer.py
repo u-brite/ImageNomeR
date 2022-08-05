@@ -9,7 +9,8 @@ class JsonData:
 		self.dict = {}
 		self.dict['desc'] = analysis.desc
 
-	def pack(self):
+	def pack(self, runid):
+		self.dict['runid'] = runid
 		keys = set(self.dict.keys())
 		assert any(key in keys for key in ['Accuracy', 'RMSE'])
 		assert 'Train' in keys and 'Test' in keys 
@@ -20,7 +21,8 @@ class JsonData:
 		return json.dumps(self.dict)
 
 	def post(self):
-		return self.analysis.post(self.pack())
+		runid = self.analysis.runid
+		return self.analysis.post(self.pack(runid))
 
 class Analysis:
 	def __init__(self, desc='test', host='localhost'):
@@ -34,8 +36,9 @@ class Analysis:
 		return f'{self.url}?id={self.id}&runid={self.runid}'
 	
 	def post(self, data):
-		self.runid += 1
 		url = f'http://{self.host}/post?id={self.id}&runid={self.runid}'
 		headers = {"Content-Type": "application/json", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 		r = requests.post(url, headers=headers, data=data);
+		if r.status_code == 200:
+			self.runid += 1
 		return r
