@@ -1,3 +1,4 @@
 *.json
 fmri-ts-rest/*
 omics/*
+*.pkl
