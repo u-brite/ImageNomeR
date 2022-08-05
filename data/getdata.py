@@ -10,7 +10,7 @@ headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 for file in files:
 	r = requests.get(f'{host}/{file}', headers=headers)
 
-	with open(files[0], 'w') as f:
+	with open(files[0], 'wb') as f:
 		f.write(r.text)
 
 	print(r.status_code)
