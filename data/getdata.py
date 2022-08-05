@@ -4,7 +4,8 @@ import requests
 
 host = 'https://hunimal.org/Hackathon/data'
 #files = ['dummyOmics1.json']
-files = ['fmri-FC.pkl', 'fmri-FC-slim.pkl']
+#files = ['fmri-FC.pkl', 'fmri-FC-slim.pkl']
+files = ['dummyFmri1.json']
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 for file in files:
