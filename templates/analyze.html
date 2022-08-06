@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ImageNomeR | Analyze {{ id }} </title>
+	<script src='/js/bar.js'></script>
+	<script src='/js/analyze.js'></script>
+	<style>
+	canvas {
+		border: 1px solid black;
+	}
+	</style>
+</head>
+<body>
+	<h1>Analyze</h1>
+	<h4 id='{{ id }}' class='h-id'>{{ id }} </h4>
+	<canvas id='mainCanvas' width=600 height=400></canvas>
+	<p>{{ cache[id]['runs'][0]['desc'] }}, {{ cache[id]['runs']|length }} runs</p>
+	<ol id='runs-list'>
+	{% for run in cache[id]['runs']: %}
+		<li>
+			<input type='checkbox' id='run{{ run["runid"] }}' checked> <span>Accuracy: {{ run['Accuracy'] }},
+				Train: {{ run['Train'].__str__() }}, Test: {{ run['Test'].__str__() }}</span> <span class='loading'>Loading...</span>
+		</li>
+	{% endfor %}	
+	</ol>
+</body>
+</html>

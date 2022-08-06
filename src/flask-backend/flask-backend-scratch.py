@@ -1,15 +1,27 @@
 import json
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask import jsonify
 
-app = Flask(__name__)
+import os
+
+app = Flask(__name__, 
+	static_url_path='',
+	static_folder='/home/anton/Documents/Tulane/Hackathon/ImageNomeR/static',
+	template_folder='/home/anton/Documents/Tulane/Hackathon/ImageNomeR/templates')
 
 cache = {}
 
 @app.route('/')
 def index():
-    return f'Backend Server for Team ImageNomeR\n{list(cache.keys())}'
+    return render_template('index.html', cache=cache)
+
+@app.route('/analyze')
+def analyze():
+	args = request.args
+	if 'id' not in args:
+		return 'id not in query parameters'
+	return render_template('analyze.html', cache=cache, id=args['id'])	
 
 @app.route('/clear')
 def postClear():

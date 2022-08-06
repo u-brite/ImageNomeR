@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ImageNomeR | {{ cache|length }} Analyses</title>
+</head>
+<body>
+{% if cache|length == 0 %}
+	<p>No analyses loaded</p>
+{% else %}
+	<ol>
+	{% for id,item in cache.items(): %}
+		<li>
+			<a href='/analyze?id={{ id }}'>{{ id }}</a> - 
+				<span>{{ item['runs'][0]['desc'] }}, {{ item['runs']|length }} runs</span>
+		</li>
+	{% endfor %}	
+	</ol>
+{% endif %}
+</body>
+</html>
