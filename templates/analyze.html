@@ -11,10 +11,13 @@
 	</style>
 </head>
 <body>
-	<h1>Analyze</h1>
-	<h4 id='{{ id }}' class='h-id'>{{ id }} </h4>
+	<h2 id='{{ id }}' class='h-id'>{{ cache[id]['runs'][0]['desc'] }}</h2>
+	<p>
+		<button id='barBoxButton'>Box Plot</button>
+		<input type='checkbox' id='displayLabels' checked> Display Labels
+	</p>
 	<canvas id='mainCanvas' width=600 height=400></canvas>
-	<p>{{ cache[id]['runs'][0]['desc'] }}, {{ cache[id]['runs']|length }} runs</p>
+	<p>{{ cache[id]['runs']|length }} runs, Accuracy: {{ accuracy }}&#xB1;{{ stddev }}</p>
 	<ol id='runs-list'>
 	{% for run in cache[id]['runs']: %}
 		<li>

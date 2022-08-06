@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 from flask import jsonify
 
 import os
+import numpy as np
 
 app = Flask(__name__, 
 	static_url_path='',
@@ -18,10 +19,19 @@ def index():
 
 @app.route('/analyze')
 def analyze():
-	args = request.args
-	if 'id' not in args:
-		return 'id not in query parameters'
-	return render_template('analyze.html', cache=cache, id=args['id'])	
+	try:
+		args = request.args
+		if 'id' not in args:
+			return 'id not in query parameters'
+		runs = cache[args['id']]['runs'] 
+		accuracies = np.array([run['Accuracy'] for run in runs])
+		acc = np.mean(accuracies)
+		acc = '{:.3f}'.format(acc)
+		std = np.std(accuracies)
+		std = '{:.3f}'.format(std)
+		return render_template('analyze.html', cache=cache, id=args['id'], accuracy=acc, stddev=std)	
+	except Exception as e:
+		return f'exception: {e}'
 
 @app.route('/clear')
 def postClear():
