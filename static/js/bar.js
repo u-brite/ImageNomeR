@@ -2,8 +2,8 @@ function zip(a, b) {
 	return a.map((e,i) => [e, b[i]]);
 }
 
-function strokeLine(ctx, p0, p1) {
-	ctx.strokeStyle = '#000';
+function strokeLine(ctx, p0, p1, color) {
+	ctx.strokeStyle = color ?? '#000';
 	ctx.beginPath();
 	ctx.moveTo(p0.x, p0.y);
 	ctx.lineTo(p1.x, p1.y);
@@ -13,6 +13,7 @@ function strokeLine(ctx, p0, p1) {
 class Bar {
 	constructor(params) {
 		this.label = params.label;
+		this.graph = params.graph;
 		this.pos = params.pos;
 		this.dim = params.dim;
 		this.color = params.color ?? '#204e8a';
@@ -27,20 +28,30 @@ class Bar {
 
 	draw(ctx, n) {
 		n = n ?? 0;
-		ctx.fillStyle = (this.hovering) ? this.hoverColor : this.color;
+		ctx.fillStyle = (this.hovering || this.selected) ? this.hoverColor : this.color;
 		ctx.fillRect(this.pos.x, this.pos.y, this.dim.w, this.dim.h);
-		if (this.hovering || this.display) {
+		if (this.hovering || this.selected || this.display) {
 			const y = (n%2 == 0) ? this.pos.y-12 : this.pos.y+this.dim.h+12;
 			ctx.fillStyle = '#000';
-			ctx.font = 'normal 12px Sans-serif';
-			ctx.fillText(this.label, this.pos.x, y);
+			ctx.font = 'normal 8px Sans-serif';
+			const label = this.graph.displayMeta.checked && this.graph.meta ? this.metaLabel : this.label;
+			const labelWidth = ctx.measureText(label).width;
+			ctx.fillText(label, this.pos.x-labelWidth/2+this.dim.w/2, y);
 		}
+	}
+
+	get metaLabel() {
+		let [a,b] = this.label.split('-')
+		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]]
+		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]]
+		return `${a}-${b}`
 	}
 }
 
 class Box {
 	constructor(params) {
 		this.label = params.label;
+		this.graph = params.graph;
 		this.outerPos = params.outerPos;
 		this.innerPos = params.innerPos;
 		this.outerDim = params.outerDim; 
@@ -58,7 +69,7 @@ class Box {
 	}
 	
 	draw(ctx, n) {
-		ctx.fillStyle = (this.hovering) ? this.hoverColor : this.color;
+		ctx.fillStyle = (this.hovering || this.selected) ? this.hoverColor : this.color;
 		ctx.fillRect(this.innerPos.x, this.innerPos.y, this.innerDim.w, this.innerDim.h);
 		strokeLine(ctx, this.outerPos, {x: this.outerPos.x+this.outerDim.w, y: this.outerPos.y});
 		strokeLine(
@@ -71,11 +82,78 @@ class Box {
 			{x: this.outerPos.x+0.5*this.outerDim.w, y: this.outerPos.y},
 			{x: this.outerPos.x+0.5*this.outerDim.w, y: this.outerPos.y+this.outerDim.h}
 		);
-		if (this.hovering || this.display) {
+		if (this.hovering || this.selected || this.display) {
 			const y = (n%2 == 0) ? this.innerPos.y-12 : this.innerPos.y+this.innerDim.h+12;
 			ctx.fillStyle = '#000';
-			ctx.font = 'normal 12px Sans-serif';
-			ctx.fillText(this.label, this.innerPos.x, y);
+			ctx.font = 'normal 8px Sans-serif';
+			const label = this.graph.displayMeta.checked && this.graph.meta ? this.metaLabel : this.label;
+			const labelWidth = ctx.measureText(label).width;
+			ctx.fillText(label, this.innerPos.x-labelWidth/2+this.innerDim.w/2, y);
+		}
+	}
+	
+	get metaLabel() {
+		let [a,b] = this.label.split('-')
+		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]]
+		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]]
+		return `${a}-${b}`
+	}
+}
+
+class BarGraphSimple {
+	constructor(params) {
+		this.dim = params.dim;
+		this.data = params.data;
+		this.labels = params.labels ?? null;
+		this.baseline = params.baseline ?? null;
+		this.meta = params.meta ?? null;
+	}
+
+	draw(ctx) {
+		const min = Math.min(...this.data);
+		const max = Math.max(...this.data);
+		const dataCopy = [...this.data];
+		// Display 6 largest ROIs
+		dataCopy.sort((a,b) => b-a);
+		const bigLim = dataCopy[6];
+		// Make bars
+		const n = this.data.length;
+		const dx = (this.dim.w-50)/n
+		const bx = 0.8*dx;
+		const uh = this.dim.h-50;
+		const zy = max/(max-min)*uh+25;
+		const dy = uh/(max-min);
+		strokeLine(ctx, {x: 20, y: zy}, {x: this.dim.w-20, y: zy});
+		for (let i=0; i<n; i++) {
+			const y = zy-dy*this.data[i];
+			ctx.fillStyle = '#204e8a';
+			ctx.fillRect(i*dx+25, y, bx, zy-y);
+			if (this.baseline) {
+				const sumData = this.data.reduce((prev, cur) => prev+cur, 0);
+				const sumBase = this.baseline.reduce((prev, cur) => prev+cur, 0);
+				const by = zy-this.baseline[i]*sumData/sumBase*dy;
+				ctx.lineWidth = 3;
+				strokeLine(ctx, {x:i*dx+25, y: by}, {x: i*dx+25+bx, y: by}, '#f00');
+				ctx.lineWidth = 1;
+				const label = this.meta.CommunityNames[i];
+				ctx.fillStyle = '#000';
+				ctx.font = '8px Sans-serif';
+				ctx.fillText(label, i*dx+25-ctx.measureText(label).width/2+bx/2, Math.min(by, y)-10);
+			} else if (this.data[i] > bigLim) {
+				ctx.fillStyle = '#000';
+				ctx.font = '8px Sans-serif';
+				ctx.fillText(i, i*dx+25+3, y+2);
+			}
+		}
+		const ny = 6;
+		const _dy = (this.dim.h-50)/ny;
+		const _dyy = (max-min)/ny;
+		for (let i=0; i<=ny; i++) {
+			const x = 2;
+			const y = 25+i*_dy;
+			ctx.fillStyle = '#000';
+			ctx.font = '8px Sans-serif';
+			ctx.fillText((max-i*_dyy).toFixed(3), x, y);
 		}
 	}
 }
@@ -88,6 +166,12 @@ class BarGraph {
 		this.sorted = true;
 		this.abs = true;
 		this.composite = [];
+	}
+
+	click(p) {
+		this.bars.forEach(bar => {
+			if (bar.contains(p)) bar.selected = !bar.selected;
+		});
 	}
 
 	set displayLabels(display) {
@@ -135,6 +219,7 @@ class BarGraph {
 		for (let i=0, j=this.view[0], x=0; i<n; i++, j++, x+=dx) {
 			const y = zy-dy*this.composite[j][0];
 			this.bars.push(new Bar({
+				graph: this,
 				label: this.composite[j][1],
 				pos: {x: i*dx+25, y: y},
 				dim: {w: bx, h: Math.abs(y-zy)},
@@ -147,9 +232,19 @@ class BarGraph {
 	repaint(ctx) {
 		ctx.fillStyle = '#fff';
 		ctx.fillRect(0, 0, this.dim.w, this.dim.h);
-		strokeLine(ctx, {x: 0, y: this.zy}, {x: this.dim.w, y: this.zy});
+		strokeLine(ctx, {x: 20, y: this.zy}, {x: this.dim.w-20, y: this.zy});
 		let count = 0;
 		this.bars.forEach(bar => bar.draw(ctx, count++));
+		const ny = 6;
+		const dy = (this.dim.h-50)/ny;
+		const dyy = (this.max-this.min)/ny;
+		for (let i=0; i<=ny+.1; i++) {
+			const x = 2;
+			const y = 25+i*dy;
+			ctx.fillStyle = '#000';
+			ctx.font = '8px Sans-serif';
+			ctx.fillText((this.max-i*dyy).toFixed(3), x, y);
+		}
 	}
 }
 
@@ -157,6 +252,12 @@ class BoxPlot {
 	constructor(barGraph) {
 		this.barGraph = barGraph;
 		this.boxes = [];
+	}
+	
+	click(p) {
+		this.boxes.forEach(box => {
+			if (box.contains(p)) box.selected = !box.selected;
+		});
 	}
 
 	get dim() {
@@ -225,6 +326,7 @@ class BoxPlot {
 			const x = i*dx+25;
 			this.boxes.push(new Box({
 				label: this.stats[j][1],
+				graph: this,
 				outerPos: {x: x+0.25*bx, y: y1},
 				innerPos: {x: x, y: y4},
 				outerDim: {w: 0.5*bx, h: y0-y1},
@@ -248,9 +350,19 @@ class BoxPlot {
 	repaint(ctx) {
 		ctx.fillStyle = '#fff';
 		ctx.fillRect(0, 0, this.dim.w, this.dim.h);
-		strokeLine(ctx, {x: 0, y: this.zy}, {x: this.dim.w, y: this.zy});
+		strokeLine(ctx, {x: 20, y: this.zy}, {x: this.dim.w-20, y: this.zy});
 		let count = 0;
 		this.boxes.forEach(box => box.draw(ctx, count++));
+		const ny = 6;
+		const dy = (this.dim.h-50)/ny;
+		const dyy = (this.max-this.min)/ny;
+		for (let i=0; i<=ny+.1; i++) {
+			const x = 2;
+			const y = 25+i*dy;
+			ctx.fillStyle = '#000';
+			ctx.font = '8px Sans-serif';
+			ctx.fillText((this.max-i*dyy).toFixed(3), x, y);
+		}
 	}
 
 	get view() {

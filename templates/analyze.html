@@ -2,29 +2,49 @@
 <html>
 <head>
 	<title>ImageNomeR | Analyze {{ id }} </title>
+	<link rel='stylesheet' href='/css/analyze.css'>
 	<script src='/js/bar.js'></script>
 	<script src='/js/analyze.js'></script>
-	<style>
-	canvas {
-		border: 1px solid black;
-	}
-	</style>
 </head>
 <body>
+<div id='content'>
 	<h2 id='{{ id }}' class='h-id'>{{ cache[id]['runs'][0]['desc'] }}</h2>
+	<div id='left'>
 	<p>
-		<button id='barBoxButton'>Box Plot</button>
+		<button id='barBoxButton'>Box Plot</button><br>
 		<input type='checkbox' id='displayLabels' checked> Display Labels
+		<input type='checkbox' id='displayMeta'> Display Metadata
+		<span id='metaNotLoadedSpan'>(not loaded)</span>
 	</p>
 	<canvas id='mainCanvas' width=600 height=400></canvas>
-	<p>{{ cache[id]['runs']|length }} runs, Accuracy: {{ accuracy }}&#xB1;{{ stddev }}</p>
+	<p>{{ cache[id]['runs']|length }} runs, 
+		Accuracy: {{ accuracy }}&#xB1;{{ stddev }},
+		{{ cache[id]['runs'][0]['Weights']|length }} Features
+	</p>
 	<ol id='runs-list'>
 	{% for run in cache[id]['runs']: %}
 		<li>
-			<input type='checkbox' id='run{{ run["runid"] }}' checked> <span>Accuracy: {{ run['Accuracy'] }},
-				Train: {{ run['Train'].__str__() }}, Test: {{ run['Test'].__str__() }}</span> <span class='loading'>Loading...</span>
+			<input type='checkbox' id='run{{ run["runid"] }}' checked> 
+			<span>Accuracy: {{ '{:.2f}'.format(run['Accuracy']) }},
+				Train: {{ run['Train'].__str__() }}, 
+				Test: {{ run['Test'].__str__() }}</span> 
+			<span class='loading'>Loading...</span>
 		</li>
 	{% endfor %}	
 	</ol>
+	</div>
+	<div id='right'>
+	<p>
+		<input type='radio' id='roisRadio' name='roisOrBfns' checked> ROIs
+		<input type='radio' id='bfnsRadio' name='roisOrBfns'> Brain Functional Networks
+		<span id='bfnMetaNotLoadedSpan'>(metadata not loaded)</span><br>
+		From <input type='range' id='fromRange' min='0' max='{{ wLen }}' step='{{ wStep }}' value='0'>
+		To <input type='range' id='toRange' min='0' max='{{ wLen }}' step='{{wStep }}' value='{{ wLen}}'>
+		<span id='rangeSpan'>0 - {{ wLen }}</span>
+	<p>
+	<canvas id='bfnCanvas' width=500 height=400></canvas><br>
+	<!--<canvas id='popCanvas' width=500 height=400></canvas><br>-->
+	</div>
+</div>
 </body>
 </html>

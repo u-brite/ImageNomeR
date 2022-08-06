@@ -1,0 +1,26 @@
+body {
+	text-align: center;
+}
+canvas {
+	border: 1px solid black;
+}
+#content {
+	width: 1280px;
+	display: inline-block;
+	text-align: left;
+}
+#left {
+	width: 620px;
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 40px;
+}
+#right {
+	width: 600px;
+	display: inline-block;
+	vertical-align: top;
+}
+#runs-list {
+	max-height: 300px;
+	overflow-y: scroll;
+}
