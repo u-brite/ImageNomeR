@@ -97,17 +97,18 @@ class Analysis:
 	.postData() .postMetadata() and .postSubjects() are called by the .post()
 	methods of JsonBase-derived classes
 	'''
-	def __init__(self, desc='test', host='localhost'):
+	def __init__(self, desc='test', host='localhost', port=80):
 		self.id = uuid.uuid4()
 		self.desc = desc
 		self.host = host
 		self.prev = []
 		self.runid = 0
 		self.subjects = None
+		self.port = port
 		self.headers = {"Content-Type": "application/json", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 	
 	def postData(self, data):
-		url = f'http://{self.host}/post?id={self.id}&runid={self.runid}&type=data'
+		url = f'http://{self.host}:{self.port}/post?id={self.id}&runid={self.runid}&type=data'
 		r = requests.post(url, headers=self.headers, data=data);
 		if r.content.decode() == 'Success':
 			self.prev.append(json.loads(data))
@@ -115,12 +116,12 @@ class Analysis:
 		return r
 
 	def postMetadata(self, meta):
-		url = f'http://{self.host}/post?id={self.id}&type=metadata'
+		url = f'http://{self.host}:{self.port}/post?id={self.id}&type=metadata'
 		r = requests.post(url, headers=self.headers, data=meta);
 		return r
 
 	def postSubjects(self, subjects):
-		url = f'http://{self.host}/post?id={self.id}&type=subjects'
+		url = f'http://{self.host}:{self.port}/post?id={self.id}&type=subjects'
 		r = requests.post(url, headers=self.headers, data=subjects)
 		if r.content.decode() == 'Success':
 			self.subjects = set(json.loads(subjects))
