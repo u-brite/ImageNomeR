@@ -3,7 +3,7 @@
 import requests
 
 host = 'https://hunimal.org/Hackathon/data'
-files = ['fmri-FC.pkl', 'fmri-FC-slim.pkl']
+files = ['fmri-FC.pkl', 'fmri-FC-slim.pkl', 'T2Dcounts.pkl', 'GSE202295_gene_counts.txt']
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 for file in files:

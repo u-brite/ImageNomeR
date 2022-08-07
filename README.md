@@ -104,6 +104,8 @@ Our experiments are located in Jupyter notebooks. There are 4 experiments you ca
 - notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
 - notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
 
+You must run ```jupyter notebook``` from the top ImageNomeR directory:
+
 If the server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/FrontPage.png?raw=1' width='400px'><br/>
