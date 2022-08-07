@@ -29,10 +29,10 @@ Analyzing data often requires many repetitive change-run-plot cycles. Any featur
 - Navigation is 100% by mouse.
 - ImageNomeR is geared toward analysis of fMRI and omics data. 
 - It is not a new algorithm for prediction or feature detection, but an aid in analysis.
-- We currently produce have three types of interactive, interconnected charts along with annotations.
-- The eventual goal is to have many types of plots and link features with subjects.
+- We currently produce three types of interactive, interconnected charts along with annotations.
+- The eventual goal is to have many types of plots and to link features with subjects.
 
-Here are two examples of ImageNomeR being used to find features in an fMRI (top) and RNA expression (bottom) dataset:
+Here are two examples of ImageNomeR being used to find features in an fMRI (top) and gene expression (bottom) dataset:
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse2.png?raw=1' width='300px'><br/>
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult2.png?raw=1' width='300px'><br/>
