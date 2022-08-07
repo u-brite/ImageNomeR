@@ -11,7 +11,7 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 	- python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional)
 - [Installation](#Installation)
 - [Data](#Data)
-	- [Loading](#Loading)
+	- [Loading](#Loading) the data
 - [Usage](#Usage)
 - [Components](#Components)
 	- [Library](#Library) Interfaces with user code
@@ -37,13 +37,25 @@ Here are two examples of ImageNomeR being used to find features in an fMRI (top)
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse2.png?raw=1' width='300px'><br/>
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult2.png?raw=1' width='300px'><br/>
 
+## Requirements
+
+You should have the following software installed to use ImageNomeR: python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional).
+
 ## Installation
 
 Currently the only way to install is via git. Run this command:
 
-_git clone https://github.com/u-brite/ImgeNomeR.git_
+```
+git clone https://github.com/u-brite/ImgeNomeR.git
+```
 
-We are working on a distributable pip package.
+We are working on a distributable pip package. You can run 
+
+```
+python setup.py
+```
+
+to install the ImageNomeR library component to your PATH, but it will not install the server or web interface.
 
 ## Data
 
@@ -81,16 +93,18 @@ Once you have loaded the data, navigate back to the top ImageNomeR direction, an
 sudo python src/flask_backend/flask_backend.py
 ```
 
-Navigate to http://localhost/ (note, not "https://"). If the server is running but there are no analyses, you will see a screen like the following:
+Navigate to http://localhost/ (note, no "s"). If the server is running but there are no analyses, you will see a screen like the following:
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/EmptyFrontPage.png?raw=1' width='400px'><br/>
 
 Experiments are found in Jupyter notebooks. There are 4 experiments you can try:
 
-- notebooks/fmri/fmri4LibWorkout.ipynb
-- notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
-- notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
-- notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
+```
+notebooks/fmri/fmri4LibWorkout.ipynb
+notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
+notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
+notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
+```
 
 If server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
 
