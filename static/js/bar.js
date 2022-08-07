@@ -41,10 +41,10 @@ class Bar {
 	}
 
 	get metaLabel() {
-		let [a,b] = this.label.split('-')
-		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]]
-		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]]
-		return `${a}-${b}`
+		let [a,b] = this.label.split('-');
+		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]];
+		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]];
+		return `${a}-${b}`;
 	}
 }
 
@@ -93,10 +93,10 @@ class Box {
 	}
 	
 	get metaLabel() {
-		let [a,b] = this.label.split('-')
-		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]]
-		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]]
-		return `${a}-${b}`
+		let [a,b] = this.label.split('-');
+		a = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(a)]];
+		b = this.graph.meta.CommunityNames[this.graph.meta.CommunityMap[parseInt(b)]];
+		return `${a}-${b}`;
 	}
 }
 

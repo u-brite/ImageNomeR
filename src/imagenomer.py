@@ -74,6 +74,13 @@ class JsonMetadata(JsonBase):
 	def post(self):
 		return self.analysis.postMetadata(self.pack())
 
+class JsonGeneMetadata(JsonMetadata):
+	def __init__(self, analysis):
+		super().__init__(analysis)
+
+	def pack(self):
+		return json.dumps(self.dict)
+
 class JsonFCMetadata(JsonMetadata):
 	'''
 	Idea here is that connections in the form of xxx-xxx are mapped to brain functional networks

@@ -1,141 +1,171 @@
 # ImageNomeR
 Image/Genome/Transcriptome Explorer
 
-The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics data (supervised or unsupervised). Find relationships between features, groups of features, and how they relate to response variables. Identify sub-populations in the browser just by using your mouse.
+The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics data. Currently only works for supervised analyses, but unsupervised is planned.
 
 ## Table of Contents
 
 - [Background](#Background)
+	- [Features](#Features)
+- [Requirements](#Requirements)
+	- python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional)
+- [Installation](#Installation)
 - [Data](#Data)
-- [Tools](#Tools)
-	- python, numpy, scikit-learn, nilearn, pytorch, plotly, plotly.js, React, flask, fMRIPrep
-- [Plan](#Plan)
-	- [Components](#Components)
-		- [Backend](#server) Sends JSON to the frontend
-		- [Frontend](#frontend) User interaction and graph generation
-		- [Library](#library) For interfacing with user code
-	- [Milestones](#Milestones)
-		- [Input](#input) Regress or cluster fMRI and counts data
-		- [Communication](#communication) Move data between user code, server, and web browser
-		- [Graphs](#graphs) Generate graphs in the web browser
-		- [Interaction](#interaction) Navigate within graphs
+	- [Loading](#Loading)
+- [Usage](#Usage)
+- [Components](#Components)
+	- [Library](#Library) Interfaces with user code
+	- [Server](#Server) Stores user analyses and sends JSON to the frontend
+	- [Frontend](#Frontend) Interactive graphical analysis
 - [Results](#Results)
-	- [Readme](#Readme)
 - [Team Members](#Team-Members)
 
 ## Background
 
-Analyzing data often requires many repetitive change-run-plot cycles. Additionally, any feature identification leads to code edits to identify closely aligned features or subjects. Our goal is to create a simple web interface for moving between features and subjects seamlessly without changing code. Navigation should be 100% by mouse, and the program should give annotations on features.
+Analyzing data often requires many repetitive change-run-plot cycles. Any feature identification leads to code edits to move on to the next step. We created a simple web interface to really speed up analysis work. 
 
-The program is geared toward analysis of fMRI and omics data. It is based on a real problem from research work. It is not a new algorithm for prediction or feature detection, but an aid in analysis.
+### Features
 
-The eventual goal is to have many types of plots and identifying arbitrary subsets of omics. To start, we should have some easy to accomplish goals:
+- Navigation is 100% by mouse.
+- ImageNomeR is geared toward analysis of fMRI and omics data. 
+- It is not a new algorithm for prediction or feature detection, but an aid in analysis.
+- We currently produce have three types of interactive, interconnected charts along with annotations.
+- The eventual goal is to have many types of plots and link features with subjects.
 
-- Create an interactive bar graph of features based on correlation with discriminative power (for supervised tasks)
-- Create an interactive thresholded similarity matrix based on inclusion or exclusion of features (for unsupervised tasks)
+Here are two examples of ImageNomeR being used to find features in an fMRI (top) and RNA expression (bottom) dataset:
 
-Here is an example of what a screenshot of the bar graph might look like:
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_80splits_LR_WFmult_nosparse2.png?raw=1' width='300px'><br/>
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult1.png?raw=1' width='300px'><img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_Omics_T2DvsNGT_post_80splits_LR_WCountsMult2.png?raw=1' width='300px'><br/>
 
-<img src='https://github.com/u-brite/ImageNomeR/blob/main/images/bar_graph_example.png?raw=1' width='300px'>
-<img src='https://github.com/u-brite/ImageNomeR/blob/main/images/nilearn_conn_visualization.png?raw=1' width='300px'><br/>
+## Installation
 
-The interaction will happen in javascript. We can use the python/javascript plotly (plotly.js) library as a starting point. The above plots were created with matplotlib and nilearn, respectively.
+Currently the only way to install is via git. Run this command:
+
+_git clone https://github.com/u-brite/ImgeNomeR.git_
+
+We are working on a distributable pip package.
 
 ## Data
 
-We have access to the following datasets:
+We used the following two datasets:
 
-- https://openneuro.org/datasets/ds004144/versions/1.0.1 Fybromialgia 2-task fMRI, 2 groups (17.9 GB)
-	- **This is the preferred dataset for fMRI.**
-	- It has lots of additional clinical and demographic data (no omics).
-- https://openfmri.org/dataset/ds000053/ Gambling fMRI (180 GB)
-- https://openfmri.org/dataset/ds000107/ Nback task fMRI (3 GB)
-- https://cgci-data.nci.nih.gov/Public/HTMCP-CC/mRNA-seq/L3/expression/BCCA/ Cancer, mRNA, unsupervised (1 GB)
+- https://openneuro.org/datasets/ds004144/versions/1.0.1 Fibromyalgia 2-task fMRI, 2 groups (17.9 GB)
+	- **This dataset was used for fMRI.**
+	- It contains lots of clinical and demographic data (no omics).
 - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE202295 Exercise, mRNA, type 2 diabetes (4 MB)
-	- **This the the preferred dataset for omics.**
+	- **This datset was used for omics.**
 	- mRNA counts data from muscle biopsy and demographic data (no imaging).
 
-For fMRI, we can use the Power atlas to define ROIs:
+For fMRI, we generated functional connectivity (FC) based on the Power atlas.
 
 - https://github.com/brainspaces/power264
 
-Jack and Anton will try to have all data preprocessed prior to the Hackathon.
+You can see an example of the ROIs being used to extract signal at a given timepoint.
 
-## Tools
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/images/power_fMRI_extraction.png?raw=1' width='400px'><br/>
 
-The majority of the work will be done in either python (server and library) or javascript (frontend). We suggest the following tools:
+### Loading
 
-- python
-- numpy
-- scikit-learn
-- nilearn
-- pytorch
-- matplotlib, seaborn, plotly, plotly.js (graph generation)
-- React (javascript)
-- flask (python server)
-- fMRIPrep
-	- Preprocessing takes a long time and we will try to get it done before the Hackathon
+To load the data needed to run experiments, you must edit the _getdata.py_ script located in the data/ directory. Uncomment lines with the files you wish to bring in. Then, run the script:
 
-## Plan
+_cd data_
+_python getdata.py_
 
-### Components
+## Usage
 
-#### Server
+Once you have loaded the data, navigate back to the top ImageNomeR direction, and start the server:
 
-The server will serve the web pages containing the front-end javascript. It will also store user data and communicate data to the front-end on request via JSON. We are thinking to use Flask since it is simple and python-based.
+_sudo python src/flask_backend/flask_backend.py_
 
-#### Frontend
+Navigate to http://localhost/ (note, not "https://"). If the server is running but there are no analyses, you will see a screen like the following:
 
-The frontend will be a javascript web app (React and plotly.js might be a good starting point). The graphs will be probably be canvas based. There will be two types of graphs: feature graphs and population graphs.
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/results/EmptyFrontPage.png?raw=1' width='400px'><br/>
 
-- Feature graphs: bar graphs as the example in [background](#background)
-- Population graphs: graphs of (subsets of) populations color-coded according to presence of a feature (see below for scikit-learn MDS example)
+Experiments are found in Jupyter notebooks. There are 4 experiments you can try:
 
-<img src='https://github.com/u-brite/ImageNomeR/blob/main/images/mds.png?raw=1' width='300'><br/>
+- notebooks/fmri/fmri4LibWorkout.ipynb
+- notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
+- notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
+- notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
 
-Moving between graphs will take place using mouse clicks on the graphs.
+If server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
 
-Additonally, we want a panel with some summary information for highlighted features.
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/results/FrontPage.png?raw=1' width='400px'><br/>
 
-- Distribution of feature in subjects
-- Predictive power of feature
-- Closely aligned (correlated) features
-- Distribution of feature weight in repeated runs of the model
+## Components
 
-#### Library
+### Library
 
-The user is expected to provide their own state of the art regression/classification/clustering algorithm. They communicate with the server via a python library they import into their code.
+The library formats user data into JSON and sends it to the server. The following lines import components from the ImageNomeR library:
 
-### Milestones
 
-#### Input
+Please take a look at the code for details on how to generate acceptable JSON.
 
-Generate predictions along with feature weights for fMRI and omics data. This can be linear regression, logistic regression, NN-based models, K-means, GCN, or something more advanced. We recommend using numpy, pytorch, or scikit-learn.
+### Server
 
-#### Communication 
+This is a basic Flask server that coordinates communication between the web browser and the user's python code (which presumably generated results they want to examine). It contains the following endpoints:
 
-To be able to transfer data between the user code generated in [Input](#input) above, the server, and the front-end web page. User-server communication will likely use a library and IPC, while server and frontend communication will likely use JSON.
+- / - Main page, in templates/index.html
+- /analyze - Analysis page, in templates/analyze.html
+- /post - URL to push data from user code
+- /data - URL for browser to send async requests to server
+- /clear - Not implemented yet, to be used for reducing memory load by removing old analyses
 
-#### Graphs
+The static/ directory contains js and css files for the frontend.
 
-Generate graphs in the web browser as in the [Background](#background) section. Also generate population-level graphs and annotations.
+### Frontend
 
-#### Interaction
-
-Clicking on bars of graphs (feature view) or nodes (subject view) navigates to an another display. There will be a dynamically populated sidebar with feature or subject info.
+A simple web UI, using only the fetch and canvas APIs. Interoperability with the library and server requires paying attention to the JSON format. The front end is not yet able to communicate back to user code via the library.
 
 ## Results
 
-Deliverable will be a pip python package that includes the library, server, and client that will perform all the tasks listed above.
+### fMRI-based diagnosis of Fibromyalgia
 
-### Readme
+We attemped classification of normal controls versus female fibromyalgia sufferers with resting state and task (epr) functional connectivity from fMRI data, using Logistic Regression and MLP models. The results are as follows (averaged over 40 train/test splits):
 
-The final task will be to update the README.md to reflect the deliverable.
+|   |Accuracy|
+|---|--------|
+|LR |0.64&#xB1;0.09|
+|---|--------|
+|MLP|0.51&#xB1;0.10|
+|---|--------|
+|Sparse MLP|0.56&#xB1;0.11|
+
+The Logistic Regression model was superior to both MLP models at the p < and p < significance levels.
+
+We identified several consistently prominent connections:
+
+- 'Temporal\_Inf\_L (aal)' to 'Fusiform\_L (aal)' (UNK-UNK)
+- 'Cerebelum\_Crus1\_R (aal)' to 'Cerebelum\_Crus2\_R (aal)' (DMN-UNK)
+- 'Insula\_R (aal)' to 'Cerebelum\_Crus1\_R (aal)' (UNK-UNK)
+
+Additionally, the Default Mode Network (DMN) and Uncertain (UNK) network regions were greatly over-represented in the top few connections (20 total regions in the figure below).
+
+<img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_top10_BFNs_100splits.png?raw=1' width='200px'><br/>
+
+### Vastus lateralis-based diagnosis of type 2 diabetes
+
+We also attempted classification of normal glucose tolerant versus type 2 diabetic men, again with a Logistic Regression. Most subjects had 3 timepoints: basal, post, and recovery. The results are as follows (averaged over 80 random train/test splits):
+
+   |basal|post|recovery|
+---|-----|----|--------|
+LR |0.52&#xB1;0.16|0.60&#xB1;0.16|0.57&#xB1;0.16|
+---|-----|----|--------|
+
+We found a significant difference (p < 5e-4) between basal and post, but not a significant difference (p < 0.1) between post and recovery.
+
+The following gene products appeared prominently in top features:
+
+- NEB
+- TTN
+- MT-CO1
+
+Two of these are muscle proteins, and a third is heavily involved in metabolism (also implicated in many diseases).
 
 ## Team Members
 
 Anton Orlichenko | aorlichenko@tulane.edu | Team Leader<br/>
 Jack Freeman | jackwfreeman@yahoo.com | Team Co-leader<br/>
-Grant Daly<br/>
+Grant Daly | daly@southalabama.edu <br/>
 Justin Li<br/>
 Jie Yuan
