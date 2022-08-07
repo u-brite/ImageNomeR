@@ -4,12 +4,12 @@ from flask import Flask, request, render_template
 from flask import jsonify
 
 import os
+import numpy as np
 
 app = Flask(__name__, 
 	static_url_path='',
-	static_folder=os.path.join(os.path.dirname(__file__), '../../static'),
-	template_folder=os.path.join(os.path.dirname(__file__), '../../templates')
-            )
+	static_folder='/home/anton/Documents/Tulane/Hackathon/ImageNomeR/static',
+	template_folder='/home/anton/Documents/Tulane/Hackathon/ImageNomeR/templates')
 
 cache = {}
 
@@ -19,10 +19,22 @@ def index():
 
 @app.route('/analyze')
 def analyze():
-	args = request.args
-	if 'id' not in args:
-		return 'id not in query parameters'
-	return render_template('analyze.html', cache=cache, id=args['id'])	
+	try:
+		args = request.args
+		if 'id' not in args:
+			return 'id not in query parameters'
+		runs = cache[args['id']]['runs'] 
+		accuracies = np.array([run['Accuracy'] for run in runs])
+		acc = np.mean(accuracies)
+		acc = '{:.3f}'.format(acc)
+		std = np.std(accuracies)
+		std = '{:.3f}'.format(std)
+		wLen = min(1000,len(runs[0]['Weights']))
+		wStep = int(wLen/100)
+		return render_template('analyze.html', cache=cache, id=args['id'], 
+			accuracy=acc, stddev=std, wLen=wLen, wStep=wStep)	
+	except Exception as e:
+		return f'exception: {e}'
 
 @app.route('/clear')
 def postClear():
@@ -104,11 +116,33 @@ def initCache(_id):
 	
 @app.route("/data", methods=['GET'])
 def getData():
+	try:
+		args = request.args
+		if 'id' not in args:
+			return 'missing id'
+		if args['id'] not in cache:
+			return f'no such id {args["id"]}'
+		if 'runid' in args:
+			return getRun()
+		elif 'metadata' in args:
+			if 'metadata' in cache[args['id']]:
+				return jsonify(cache[args['id']]['metadata'])
+			else:
+				return 'no metadata'
+		elif 'subjects' in args:
+			if 'metadata' in cache[args['id']]:
+				return jsonify(cache[args['id']]['subjects'])
+			else:
+				return 'no subjects'
+		else:
+			return 'data request must have runid, metadata, or subjects'
+	except Exception as e:
+		return f'exception: {e}'
+
+def getRun():
 	args = request.args
-	if 'id' not in args or 'runid' not in args:
-		return 'missing id or runid'
-	if args['id'] not in cache:
-		return f'no such id {args["id"]}'
+	if 'runid' not in args:
+		return 'missing runid'
 	others = []
 	for prev in cache[args['id']]['runs']:
 		others.append(prev['runid'])

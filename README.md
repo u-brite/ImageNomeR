@@ -78,7 +78,7 @@ You can see an example of the Power regions of interest (ROIs) being used to ext
 
 ### Loading Data
 
-To load the data needed to run experiments, you must edit the _getdata.py_ script located in the data/ directory. Uncomment lines with the files you wish to bring in. Then, run the script:
+To load the data needed to run experiments, you must run the _getdata.py_ script located in the data/ directory.
 
 ```
 cd data
@@ -87,7 +87,7 @@ python getdata.py
 
 ## Usage
 
-Once you have loaded the data, navigate back to the top ImageNomeR direction, and start the server:
+Once you have loaded the data, navigate back to the top ImageNomeR directory, and start the server:
 
 ```
 sudo python src/flask_backend/flask_backend.py
