@@ -46,7 +46,7 @@ You should have the following software installed to use ImageNomeR: python, pip,
 Currently the only way to install is via git. Run this command:
 
 ```
-git clone https://github.com/u-brite/ImgeNomeR.git
+git clone https://github.com/u-brite/ImageNomeR.git
 ```
 
 We are working on a distributable pip package. You can run 
