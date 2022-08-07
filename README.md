@@ -1,7 +1,7 @@
 # ImageNomeR
 Image/Genome/Transcriptome Explorer
 
-The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics data. Currently only works for supervised analyses, but unsupervised is planned.
+The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics data.
 
 ## Table of Contents
 
@@ -68,14 +68,18 @@ You can see an example of the ROIs being used to extract signal at a given timep
 
 To load the data needed to run experiments, you must edit the _getdata.py_ script located in the data/ directory. Uncomment lines with the files you wish to bring in. Then, run the script:
 
-_cd data_
-_python getdata.py_
+```
+cd data
+python getdata.py
+```
 
 ## Usage
 
 Once you have loaded the data, navigate back to the top ImageNomeR direction, and start the server:
 
-_sudo python src/flask_backend/flask_backend.py_
+```
+sudo python src/flask_backend/flask_backend.py
+```
 
 Navigate to http://localhost/ (note, not "https://"). If the server is running but there are no analyses, you will see a screen like the following:
 
@@ -96,8 +100,11 @@ If server is running, and you executed one or more experiments successfully, the
 
 ### Library
 
-The library formats user data into JSON and sends it to the server. The following lines import components from the ImageNomeR library:
+The library formats user data into JSON and sends it to the server. The following line imports components from the ImageNomeR library:
 
+```
+from imagenomer import Analysis, JsonData, JsonSubjects, JsonFCMetadata
+```
 
 Please take a look at the code for details on how to generate acceptable JSON.
 
@@ -126,12 +133,10 @@ We attemped classification of normal controls versus female fibromyalgia suffere
 |   |Accuracy|
 |---|--------|
 |LR |0.64&#xB1;0.09|
-|---|--------|
 |MLP|0.51&#xB1;0.10|
-|---|--------|
 |Sparse MLP|0.56&#xB1;0.11|
 
-The Logistic Regression model was superior to both MLP models at the p < and p < significance levels.
+The Logistic Regression model was superior to both MLP models at the p < 1e-4 and p < 6e-4 significance levels.
 
 We identified several consistently prominent connections:
 
@@ -147,10 +152,9 @@ Additionally, the Default Mode Network (DMN) and Uncertain (UNK) network regions
 
 We also attempted classification of normal glucose tolerant versus type 2 diabetic men, again with a Logistic Regression. Most subjects had 3 timepoints: basal, post, and recovery. The results are as follows (averaged over 80 random train/test splits):
 
-   |basal|post|recovery|
----|-----|----|--------|
-LR |0.52&#xB1;0.16|0.60&#xB1;0.16|0.57&#xB1;0.16|
----|-----|----|--------|
+|   |basal|post|recovery|
+|---|-----|----|--------|
+|LR |0.52&#xB1;0.16|0.60&#xB1;0.16|0.57&#xB1;0.16|
 
 We found a significant difference (p < 5e-4) between basal and post, but not a significant difference (p < 0.1) between post and recovery.
 
