@@ -11,7 +11,7 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 	- python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional)
 - [Installation](#Installation)
 - [Data](#Data)
-	- [Loading](#Loading) 
+	- [Loading Data](#Loading-Data) 
 - [Usage](#Usage)
 - [Components](#Components)
 	- [Library](#Library) Interfaces with user code
@@ -76,7 +76,7 @@ You can see an example of the Power regions of interest (ROIs) being used to ext
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/images/power_fMRI_extraction.png?raw=1' width='400px'><br/>
 
-### Loading
+### Loading Data
 
 To load the data needed to run experiments, you must edit the _getdata.py_ script located in the data/ directory. Uncomment lines with the files you wish to bring in. Then, run the script:
 
