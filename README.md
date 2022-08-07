@@ -72,7 +72,7 @@ For fMRI, we generated functional connectivity (FC) based on the Power atlas.
 
 - https://github.com/brainspaces/power264
 
-You can see an example of the ROIs being used to extract signal at a given timepoint.
+You can see an example of the Power regions of interest (ROIs) being used to extract signal at a given timepoint.
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/images/power_fMRI_extraction.png?raw=1' width='400px'><br/>
 
@@ -97,14 +97,14 @@ Navigate to http://localhost/ (note, no "s"). If the server is running but there
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/EmptyFrontPage.png?raw=1' width='400px'><br/>
 
-Experiments are found in Jupyter notebooks. There are 4 experiments you can try:
+Our experiments are located in Jupyter notebooks. There are 4 experiments you can try:
 
 - notebooks/fmri/fmri4LibWorkout.ipynb
 - notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
 - notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
 - notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
 
-If server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
+If the server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/FrontPage.png?raw=1' width='400px'><br/>
 
@@ -134,13 +134,13 @@ The static/ directory contains js and css files for the frontend.
 
 ### Frontend
 
-A simple web UI, using only the fetch and canvas APIs. Interoperability with the library and server requires paying attention to the JSON format. The front end is not yet able to communicate back to user code via the library.
+A simple web UI, using only the fetch and canvas APIs. Interoperability with the library and server requires paying attention to the JSON format. The front end is not able to make requests of the user code via the server (maybe in the future).
 
 ## Results
 
 ### fMRI-based diagnosis of Fibromyalgia
 
-We attemped classification of normal controls versus female fibromyalgia sufferers with resting state and task (epr) functional connectivity from fMRI data, using Logistic Regression and MLP models. The results are as follows (averaged over 40 train/test splits):
+We attemped classification of normal controls versus female fibromyalgia sufferers with resting state and task (epr) functional connectivity from fMRI data, using Logistic Regression (LR) and MLP models. The results are as follows (averaged over 40 train/test splits):
 
 |   |Accuracy|
 |---|--------|
@@ -148,7 +148,7 @@ We attemped classification of normal controls versus female fibromyalgia suffere
 |MLP|0.51&#xB1;0.10|
 |Sparse MLP|0.56&#xB1;0.11|
 
-The Logistic Regression model was superior to both MLP models at the p < 1e-4 and p < 6e-4 significance levels.
+The LR model was superior to both MLP models at the p < 1e-4 and p < 6e-4 significance levels.
 
 We identified several consistently prominent connections:
 
@@ -160,9 +160,9 @@ Additionally, the Default Mode Network (DMN) and Uncertain (UNK) network regions
 
 <img src='https://github.com/u-brite/ImageNomeR/blob/main/results/analyze_fMRI_rest_top10_BFNs_100splits.png?raw=1' width='200px'><br/>
 
-### Vastus lateralis-based diagnosis of type 2 diabetes
+### Vastus lateralis biopsy-based diagnosis of type 2 diabetes
 
-We also attempted classification of normal glucose tolerant versus type 2 diabetic men, again with a Logistic Regression. Most subjects had 3 timepoints: basal, post, and recovery. The results are as follows (averaged over 80 random train/test splits):
+We also attempted classification of normal glucose tolerant versus type 2 diabetic men, again with Logistic Regression. Most subjects had 3 timepoints: basal, post, and recovery. The results are as follows (averaged over 80 random train/test splits):
 
 |   |basal|post|recovery|
 |---|-----|----|--------|
