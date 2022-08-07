@@ -52,10 +52,10 @@ git clone https://github.com/u-brite/ImgeNomeR.git
 We are working on a distributable pip package. You can run 
 
 ```
-python setup.py
+pip install -e .
 ```
 
-to install the ImageNomeR library component to your PATH, but it will not install the server or web interface.
+in the ImageNomeR directory to install the library component, but this will not install the server or web interface.
 
 ## Data
 
