@@ -11,7 +11,7 @@ The purpose of ImageNomeR is to facilitate efficient exploration of fMRI/omics d
 	- python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional)
 - [Installation](#Installation)
 - [Data](#Data)
-	- [Loading](#Loading) the data
+	- [Loading](#Loading) 
 - [Usage](#Usage)
 - [Components](#Components)
 	- [Library](#Library) Interfaces with user code
@@ -39,7 +39,7 @@ Here are two examples of ImageNomeR being used to find features in an fMRI (top)
 
 ## Requirements
 
-You should have the following software installed to use ImageNomeR: python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, pytorch (optional).
+You should have the following software installed to use ImageNomeR: python, pip, numpy, scikit-learn, requests, flask, jupyter notebook, and pytorch (optional).
 
 ## Installation
 
@@ -99,12 +99,10 @@ Navigate to http://localhost/ (note, no "s"). If the server is running but there
 
 Experiments are found in Jupyter notebooks. There are 4 experiments you can try:
 
-```
-notebooks/fmri/fmri4LibWorkout.ipynb
-notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
-notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
-notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
-```
+- notebooks/fmri/fmri4LibWorkout.ipynb
+- notebooks/fmri/fmri6WeighFeatCorrExperiments.ipynb
+- notebooks/fmri/fmri7MLPExperiments.ipynb (requires pytorch, preferably with GPU acceleration)
+- notebooks/omics/genecount2WandWFMultImageNomeR.ipynb
 
 If server is running, and you executed one or more experiments successfully, the page at http://localhost/ should now contain analyses:
 
